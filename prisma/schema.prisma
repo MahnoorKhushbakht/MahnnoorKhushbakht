@@ -55,7 +55,7 @@ model UserSubscription {
 model UsageRecord {
   id        String   @id @default(cuid())
   userId    String
-  month     Int      // 1–12
+  month     Int      
   year      Int
   freeUsed  Int      @default(0)
   paidUsed  Int      @default(0)

@@ -1,4 +1,3 @@
-// services/subscriptionService.ts
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
@@ -32,12 +31,10 @@ class SubscriptionService {
                     }
                 },
             });
-            
-            console.log('Subscription created successfully');
+        
             return subscription;
             
         } catch (error) {
-            console.error('Subscription creation failed:', error);
             throw error;
         }
     }

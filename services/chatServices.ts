@@ -22,9 +22,7 @@ class ChatServices {
         
      
         if (this.isFirstDayOfMonth()) {
-            console.log(`🔄 First day of month - checking reset for user: ${userId}`);
             
-     
             await prisma.usageRecord.deleteMany({
                 where: { 
                     userId,
@@ -33,7 +31,7 @@ class ChatServices {
                 }
             });
             
-            console.log(`✅ Reset usage record for user: ${userId}`);
+           
         }
 
    
@@ -55,7 +53,6 @@ class ChatServices {
                     paidUsed: 0 
                 }
             });
-            console.log(`Created new usage record for user: ${userId}`);
         }
 
         return usageRecord;
@@ -74,9 +71,7 @@ class ChatServices {
             const currentMonth = new Date().getMonth() + 1;
             const currentYear = new Date().getFullYear();
 
-            console.log(`🔄 Resetting all monthly quotas for ${currentMonth}/${currentYear}...`);
-
-        
+            
             const deleteResult = await prisma.usageRecord.deleteMany({
                 where: {
                     month: currentMonth,
@@ -84,7 +79,7 @@ class ChatServices {
                 }
             });
 
-            console.log(`✅ Reset ${deleteResult.count} user quotas`);
+
             
             return { 
                 success: true, 
@@ -93,7 +88,6 @@ class ChatServices {
             };
 
         } catch (error) {
-            console.error('❌ Error resetting quotas:', error);
             throw error;
         }
     }
