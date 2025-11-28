@@ -1,0 +1,77 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id               String             @id @default(cuid())
+  email            String?             @unique
+  createdAt        DateTime           @default(now())
+  chatMessages     ChatMessage[]
+  subscriptions    UserSubscription[]
+  usageRecords     UsageRecord[]
+}
+
+model ChatMessage {
+  id        String   @id @default(cuid())
+  userId    String
+  question  String
+  answers   String
+  token     Int
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model SubscriptionBundle {
+  id          String       @id @default(cuid())
+  tier        Tier
+  billingCycle BillingCycle
+  maxMessages Int?
+  price       Int
+  createdAt   DateTime     @default(now())
+  userSubscriptions UserSubscription[]
+}
+
+model UserSubscription {
+  id                    String             @id @default(cuid())
+  userId                String
+  subscriptionBundleId  String
+  startDate             DateTime           @default(now())
+  endDate               DateTime
+  renewalDate           DateTime
+  autoRenew             Boolean            @default(true)
+  isActive              Boolean            @default(true)
+
+
+  user                User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  bundle  SubscriptionBundle  @relation(fields: [subscriptionBundleId], references: [id], onDelete: Cascade)
+}
+
+model UsageRecord {
+  id        String   @id @default(cuid())
+  userId    String
+  month     Int      // 1–12
+  year      Int
+  freeUsed  Int      @default(0)
+  paidUsed  Int      @default(0)
+  
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@unique([userId, month, year])
+}
+
+enum Tier {
+  BASIC
+  PRO
+  ENTERPRISE
+}
+
+enum BillingCycle {
+  MONTHLY
+  YEARLY
+}
