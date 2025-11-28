@@ -1,36 +1,82 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# AI Chatbot with Subscription System
 
-## Getting Started
+A full-stack AI chatbot application built with Next.js, TypeScript, Prisma, and PostgreSQL. Features a subscription-based quota system with free tier and paid plans.
 
-First, run the development server:
+## Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### Core Functionality
+- **AI Chat Interface** - Interactive chat with mocked OpenAI responses
+- **Free Tier** - 3 free messages per month for every user
+- **Subscription Plans** - Basic, Pro, and Enterprise tiers with different message limits
+- **Auto-Renewal** - Configurable auto-renewal for subscriptions
+- **Monthly Quota Reset** - Automatic quota reset on 1st of every month
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Subscription Plans
+| Plan | Messages/Month | Price | Features |
+|------|---------------|-------|----------|
+| Basic | 10 | $9.99/month | Standard AI model, Email support |
+| Pro | 100 | $19.99/month | Fast AI model, Priority support |
+| Enterprise | Unlimited | $99.99/month | Custom AI models, Dedicated support |
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Technical Features
+- **Clean Architecture** - Domain-Driven Design (DDD) with separated layers
+- **Type Safety** - Full TypeScript implementation
+- **Database** - PostgreSQL with Prisma ORM
+- **RESTful API** - Proper API design with structured responses
+- **Error Handling** - Comprehensive error handling and user feedback
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Tech Stack
 
-## Learn More
+- **Frontend**: Next.js 14, React, TypeScript, Tailwind CSS
+- **Backend**: Next.js API Routes, TypeScript
+- **Database**: PostgreSQL with Prisma ORM
+- **Authentication**: Cookie-based session management
 
-To learn more about Next.js, take a look at the following resources:
+## Key Components
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **ChatInterface**: Main chat UI with quota display
+- **SubscriptionPlan**: Subscription modal with plan selection
+- **AutoRenewToggle**: Auto-renewal toggle component
+- **Header**: App header with subscription status
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Chat API
 
-## Deploy on Vercel
+- POST /api/chat - Process chat message with quota checking
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Subscription APIs
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- GET /api/subscription - Get user's subscriptions
+- POST /api/subscription - Create new subscription
+- PATCH /api/subscriptions/[id] - Update subscription (auto-renew)
+- POST /api/subscriptions/[id]/cancel - Cancel subscription
+- POST /api/subscriptions/[id]/failed - Failed subscription
+
+### Usage Flow
+
+- **New User**: Starts with 3 free messages
+- **Free Usage**: Uses free messages with real-time quota display
+- **Quota Exceeded**: Subscription modal appears automatically
+- **Subscription**: User selects plan and continues chatting
+- **Monthly Reset**: Quotas reset automatically on 1st of each month
+
+## Testing Subscription Flow
+
+- Send 3 Free Messages to AI
+- When the user reach its limit the Plans Modal Appear
+- Subscribe to Basic Blan(or whatever you want)
+- The user can toggle auto renew toggle on or off whenever he wants.
+- Cancel the Subscription by the Cancel Button on the header
+
+## 📦 Installation
+
+### Prerequisites
+- Node.js 18+ 
+- PostgreSQL database
+- npm or yarn
+
+### Setup Steps
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/MahnoorKhushbakht/MahnnoorKhushbakht.git
+   cd my-app
